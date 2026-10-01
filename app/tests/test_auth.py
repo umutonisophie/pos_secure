@@ -1,13 +1,8 @@
-import pytest
 from fastapi import status
 
 
 def test_register_user(client):
-    user_data = {
-        "username": "newuser",
-        "password": "password123",
-        "role": "Cashier"
-    }
+    user_data = {"username": "newuser", "password": "password123", "role": "Cashier"}
     response = client.post("/auth/register", json=user_data)
     assert response.status_code == status.HTTP_201_CREATED
     data = response.json()
@@ -21,7 +16,7 @@ def test_register_duplicate_username(client, test_user):
     user_data = {
         "username": test_user["username"],
         "password": "differentpassword",
-        "role": "Cashier"
+        "role": "Cashier",
     }
     response = client.post("/auth/register", json=user_data)
     assert response.status_code == status.HTTP_400_BAD_REQUEST
@@ -29,10 +24,7 @@ def test_register_duplicate_username(client, test_user):
 
 
 def test_register_missing_username(client):
-    user_data = {
-        "password": "password123",
-        "role": "Cashier"
-    }
+    user_data = {"password": "password123", "role": "Cashier"}
     response = client.post("/auth/register", json=user_data)
     assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
 

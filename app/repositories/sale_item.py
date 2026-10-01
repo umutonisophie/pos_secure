@@ -1,5 +1,7 @@
-from models.sale_item import SaleItem
 from sqlalchemy.orm import Session
+
+from models.sale_item import SaleItem
+
 
 class SaleItemRepository:
     def __init__(self):
@@ -29,6 +31,6 @@ class SaleItemRepository:
     def delete(self, db: Session, db_obj: SaleItem):
         db.delete(db_obj)
         db.commit()
-        return
+
 
 sale_item_repository = SaleItemRepository()

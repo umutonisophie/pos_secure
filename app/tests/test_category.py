@@ -1,4 +1,3 @@
-import pytest
 from fastapi import status
 
 
@@ -9,10 +8,7 @@ def test_list_categories(client, auth_headers):
 
 
 def test_create_category(client, auth_headers):
-    category_data = {
-        "name": "Beverages",
-        "description": "Drinks and beverages"
-    }
+    category_data = {"name": "Beverages", "description": "Drinks and beverages"}
     response = client.post("/categories", json=category_data, headers=auth_headers)
     assert response.status_code == status.HTTP_201_CREATED
     data = response.json()
@@ -22,16 +18,16 @@ def test_create_category(client, auth_headers):
 
 
 def test_create_category_missing_name(client, auth_headers):
-    category_data = {
-        "description": "Missing name"
-    }
+    category_data = {"description": "Missing name"}
     response = client.post("/categories", json=category_data, headers=auth_headers)
     assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
 
 
 def test_get_category(client, auth_headers):
     category_data = {"name": "Electronics", "description": "Electronic devices"}
-    create_response = client.post("/categories", json=category_data, headers=auth_headers)
+    create_response = client.post(
+        "/categories", json=category_data, headers=auth_headers
+    )
     category_id = create_response.json()["id"]
 
     response = client.get(f"/categories/{category_id}", headers=auth_headers)
@@ -50,11 +46,15 @@ def test_get_nonexistent_category(client, auth_headers):
 
 def test_update_category(client, auth_headers):
     category_data = {"name": "Old Name", "description": "Old description"}
-    create_response = client.post("/categories", json=category_data, headers=auth_headers)
+    create_response = client.post(
+        "/categories", json=category_data, headers=auth_headers
+    )
     category_id = create_response.json()["id"]
 
     update_data = {"name": "New Name", "description": "New description"}
-    response = client.put(f"/categories/{category_id}", json=update_data, headers=auth_headers)
+    response = client.put(
+        f"/categories/{category_id}", json=update_data, headers=auth_headers
+    )
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
     assert data["name"] == "New Name"
@@ -63,11 +63,15 @@ def test_update_category(client, auth_headers):
 
 def test_update_category_partial(client, auth_headers):
     category_data = {"name": "Partial Update", "description": "Will update name only"}
-    create_response = client.post("/categories", json=category_data, headers=auth_headers)
+    create_response = client.post(
+        "/categories", json=category_data, headers=auth_headers
+    )
     category_id = create_response.json()["id"]
 
     update_data = {"name": "Updated Name"}
-    response = client.put(f"/categories/{category_id}", json=update_data, headers=auth_headers)
+    response = client.put(
+        f"/categories/{category_id}", json=update_data, headers=auth_headers
+    )
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
     assert data["name"] == "Updated Name"
@@ -75,13 +79,17 @@ def test_update_category_partial(client, auth_headers):
 
 
 def test_update_nonexistent_category(client, auth_headers):
-    response = client.put("/categories/999", json={"name": "Test"}, headers=auth_headers)
+    response = client.put(
+        "/categories/999", json={"name": "Test"}, headers=auth_headers
+    )
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
 def test_delete_category(client, auth_headers):
     category_data = {"name": "To Delete", "description": "Will be deleted"}
-    create_response = client.post("/categories", json=category_data, headers=auth_headers)
+    create_response = client.post(
+        "/categories", json=category_data, headers=auth_headers
+    )
     category_id = create_response.json()["id"]
 
     response = client.delete(f"/categories/{category_id}", headers=auth_headers)

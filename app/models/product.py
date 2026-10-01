@@ -7,7 +7,9 @@ from sqlalchemy import (
     Numeric,
     String,
 )
-from sqlalchemy.orm import relationship  # used to establish different relationships and foreign keys
+from sqlalchemy.orm import (
+    relationship,  # used to establish different relationships and foreign keys
+)
 from sqlalchemy.sql import func
 
 from database import Base

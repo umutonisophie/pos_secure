@@ -1,10 +1,12 @@
-from . import auth
-from . import product
-from . import category
-from . import customer
-from . import payment
-from . import receipt
-from . import sale
-from . import sale_item
-from . import supplier
-from . import user
+from . import (
+    auth,
+    category,
+    customer,
+    payment,
+    product,
+    receipt,
+    sale,
+    sale_item,
+    supplier,
+    user,
+)

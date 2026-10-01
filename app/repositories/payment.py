@@ -1,5 +1,7 @@
-from models.payment import Payment
 from sqlalchemy.orm import Session
+
+from models.payment import Payment
+
 
 class PaymentRepository:
     def __init__(self):
@@ -29,6 +31,6 @@ class PaymentRepository:
     def delete(self, db: Session, db_obj: Payment):
         db.delete(db_obj)
         db.commit()
-        return
+
 
 payment_repository = PaymentRepository()

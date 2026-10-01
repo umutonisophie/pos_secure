@@ -1,4 +1,3 @@
-import pytest
 from fastapi import status
 
 
@@ -9,11 +8,7 @@ def test_list_users(client, auth_headers):
 
 
 def test_create_user(client, auth_headers):
-    user_data = {
-        "username": "newcashier",
-        "password": "password123",
-        "role": "Cashier"
-    }
+    user_data = {"username": "newcashier", "password": "password123", "role": "Cashier"}
     response = client.post("/users", json=user_data, headers=auth_headers)
     assert response.status_code == status.HTTP_201_CREATED
     data = response.json()
@@ -25,19 +20,13 @@ def test_create_user(client, auth_headers):
 
 
 def test_create_user_missing_username(client, auth_headers):
-    user_data = {
-        "password": "password123",
-        "role": "Cashier"
-    }
+    user_data = {"password": "password123", "role": "Cashier"}
     response = client.post("/users", json=user_data, headers=auth_headers)
     assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
 
 
 def test_create_user_missing_password(client, auth_headers):
-    user_data = {
-        "username": "testuser",
-        "role": "Cashier"
-    }
+    user_data = {"username": "testuser", "role": "Cashier"}
     response = client.post("/users", json=user_data, headers=auth_headers)
     assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
 
@@ -46,14 +35,14 @@ def test_create_user_duplicate_username(client, auth_headers):
     user_data = {
         "username": "duplicateuser",
         "password": "password123",
-        "role": "Cashier"
+        "role": "Cashier",
     }
     client.post("/users", json=user_data, headers=auth_headers)
-    
+
     user_data2 = {
         "username": "duplicateuser",
         "password": "differentpassword",
-        "role": "Cashier"
+        "role": "Cashier",
     }
     response = client.post("/users", json=user_data2, headers=auth_headers)
     assert response.status_code == status.HTTP_400_BAD_REQUEST
@@ -61,11 +50,7 @@ def test_create_user_duplicate_username(client, auth_headers):
 
 
 def test_get_user(client, auth_headers):
-    user_data = {
-        "username": "getuser",
-        "password": "password123",
-        "role": "Manager"
-    }
+    user_data = {"username": "getuser", "password": "password123", "role": "Manager"}
     create_response = client.post("/users", json=user_data, headers=auth_headers)
     user_id = create_response.json()["id"]
 
@@ -84,18 +69,11 @@ def test_get_nonexistent_user(client, auth_headers):
 
 
 def test_update_user(client, auth_headers):
-    user_data = {
-        "username": "olduser",
-        "password": "password123",
-        "role": "Cashier"
-    }
+    user_data = {"username": "olduser", "password": "password123", "role": "Cashier"}
     create_response = client.post("/users", json=user_data, headers=auth_headers)
     user_id = create_response.json()["id"]
 
-    update_data = {
-        "username": "newuser",
-        "role": "Manager"
-    }
+    update_data = {"username": "newuser", "role": "Manager"}
     response = client.put(f"/users/{user_id}", json=update_data, headers=auth_headers)
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
@@ -104,44 +82,29 @@ def test_update_user(client, auth_headers):
 
 
 def test_update_user_password(client, auth_headers):
-    user_data = {
-        "username": "passuser",
-        "password": "oldpassword",
-        "role": "Cashier"
-    }
+    user_data = {"username": "passuser", "password": "oldpassword", "role": "Cashier"}
     create_response = client.post("/users", json=user_data, headers=auth_headers)
     user_id = create_response.json()["id"]
 
-    update_data = {
-        "password": "newpassword"
-    }
+    update_data = {"password": "newpassword"}
     response = client.put(f"/users/{user_id}", json=update_data, headers=auth_headers)
     assert response.status_code == status.HTTP_200_OK
     data = response.json()
     assert data["username"] == "passuser"
     assert data["role"] == "Cashier"
     # Verify we can login with new password
-    login_response = client.post("/auth/login", data={
-        "username": "passuser",
-        "password": "newpassword"
-    })
+    login_response = client.post(
+        "/auth/login", data={"username": "passuser", "password": "newpassword"}
+    )
     assert login_response.status_code == status.HTTP_200_OK
 
 
 def test_update_user_duplicate_username(client, auth_headers):
-    user_data1 = {
-        "username": "user1",
-        "password": "password123",
-        "role": "Cashier"
-    }
+    user_data1 = {"username": "user1", "password": "password123", "role": "Cashier"}
     create_response1 = client.post("/users", json=user_data1, headers=auth_headers)
     user_id1 = create_response1.json()["id"]
 
-    user_data2 = {
-        "username": "user2",
-        "password": "password123",
-        "role": "Cashier"
-    }
+    user_data2 = {"username": "user2", "password": "password123", "role": "Cashier"}
     create_response2 = client.post("/users", json=user_data2, headers=auth_headers)
     user_id2 = create_response2.json()["id"]
 
@@ -158,11 +121,7 @@ def test_update_nonexistent_user(client, auth_headers):
 
 
 def test_delete_user(client, auth_headers):
-    user_data = {
-        "username": "todelete",
-        "password": "password123",
-        "role": "Cashier"
-    }
+    user_data = {"username": "todelete", "password": "password123", "role": "Cashier"}
     create_response = client.post("/users", json=user_data, headers=auth_headers)
     user_id = create_response.json()["id"]
 

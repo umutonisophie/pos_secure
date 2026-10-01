@@ -1,8 +1,18 @@
 from fastapi import FastAPI
-from routers import auth, product, category, customer, payment, receipt, sale, sale_item, supplier, user
-from database import Base, engine
-import models 
 
+from database import Base, engine
+from routers import (
+    auth,
+    category,
+    customer,
+    payment,
+    product,
+    receipt,
+    sale,
+    sale_item,
+    supplier,
+    user,
+)
 
 app = FastAPI(title="Point of Sale API", version="1")
 
@@ -18,6 +28,7 @@ app.include_router(sale.router)
 app.include_router(sale_item.router)
 app.include_router(supplier.router)
 app.include_router(user.router)
+
 
 @app.get("/")
 def root():

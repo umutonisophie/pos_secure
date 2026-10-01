@@ -1,6 +1,8 @@
 from datetime import datetime
 from decimal import Decimal
+
 from pydantic import BaseModel, ConfigDict
+
 
 class ProductBase(BaseModel):
     name: str
@@ -11,8 +13,10 @@ class ProductBase(BaseModel):
     supplier_id: int | None = None
     is_active: bool | None = True
 
+
 class ProductCreate(ProductBase):
     pass
+
 
 class ProductUpdate(BaseModel):
     name: str | None = None
@@ -22,6 +26,7 @@ class ProductUpdate(BaseModel):
     category_id: int | None = None
     supplier_id: int | None = None
     is_active: bool | None = None
+
 
 class ProductRead(ProductBase):
     model_config = ConfigDict(from_attributes=True)

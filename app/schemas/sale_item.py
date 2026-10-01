@@ -1,5 +1,7 @@
 from decimal import Decimal
+
 from pydantic import BaseModel, ConfigDict
+
 
 class SaleItemBase(BaseModel):
     sale_id: int
@@ -7,14 +9,17 @@ class SaleItemBase(BaseModel):
     quantity: int
     unit_price: Decimal
 
+
 class SaleItemCreate(SaleItemBase):
     pass
+
 
 class SaleItemUpdate(BaseModel):
     sale_id: int | None = None
     product_id: int | None = None
     quantity: int | None = None
     unit_price: Decimal | None = None
+
 
 class SaleItemRead(SaleItemBase):
     model_config = ConfigDict(from_attributes=True)

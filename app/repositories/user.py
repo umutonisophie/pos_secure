@@ -1,5 +1,7 @@
-from models.user import User
 from sqlalchemy.orm import Session
+
+from models.user import User
+
 
 class UserRepository:
     def __init__(self):
@@ -9,7 +11,7 @@ class UserRepository:
         return db.query(User).filter(User.id == id).first()
 
     def get_by_username(self, db: Session, username: str):
-            return db.query(User).filter(User.username == username).first()
+        return db.query(User).filter(User.username == username).first()
 
     def get_all(self, db: Session):
         users = db.query(User).all()
@@ -32,6 +34,6 @@ class UserRepository:
     def delete(self, db: Session, db_obj: User):
         db.delete(db_obj)
         db.commit()
-        return
+
 
 user_repository = UserRepository()

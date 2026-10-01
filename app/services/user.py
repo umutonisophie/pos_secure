@@ -20,7 +20,9 @@ def list_user(db: Session):
 
 def create_user(db: Session, user: UserCreate):
     if user_repository.get_by_username(db, user.username):
-        raise HTTPException(status.HTTP_400_BAD_REQUEST, detail="Username already exists")
+        raise HTTPException(
+            status.HTTP_400_BAD_REQUEST, detail="Username already exists"
+        )
 
     values = user.model_dump()
     values["password_hash"] = hash_password(values.pop("password"))
@@ -36,7 +38,9 @@ def update_user(db: Session, user_id: int, user: UserUpdate):
 
     if "username" in values and values["username"] != retrieved_user.username:
         if user_repository.get_by_username(db, values["username"]):
-            raise HTTPException(status.HTTP_400_BAD_REQUEST, detail="Username already exists")
+            raise HTTPException(
+                status.HTTP_400_BAD_REQUEST, detail="Username already exists"
+            )
 
     return user_repository.update(db, retrieved_user, values)
 
